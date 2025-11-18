@@ -41,6 +41,9 @@ namespace SkalProj_Datastrukturer_Minne
                         ExamineStack();
                         break;
                     case '4':
+                        ReverseText();
+                        break;
+                    case '5':
                         CheckParanthesis();
                         break;
                     /*
@@ -56,6 +59,8 @@ namespace SkalProj_Datastrukturer_Minne
                 }
             }
         }
+
+       
 
         /// <summary>
         /// Examines the datastructure List
@@ -240,11 +245,37 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine("Current stack: " + string.Join(", ", stack));
                 Console.WriteLine($"Count: {stack.Count}");
             }
+        }
 
+        static void ReverseText()
+        {
+            while (true)
+            {
+                Console.WriteLine("\nEnter a text to reverse (or type Q to return to the main menu):");
+                string input = Console.ReadLine();
 
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("You must enter some text.");
+                    continue;
+                }
 
+                if (input.ToLower() == "q")
+                    break;
+                Stack<char> charStack = new Stack<char>();
 
+                foreach (char c in input)
+                {
+                    charStack.Push(c);
+                }
+                string reversed = "";
+                while (reversed.Length > 0) 
+                {
+                    reversed += charStack.Pop();
+                }
+                Console.WriteLine("Reversed text: " + reversed);
 
+            }
         }
 
         static void CheckParanthesis()
