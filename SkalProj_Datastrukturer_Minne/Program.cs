@@ -17,7 +17,8 @@ namespace SkalProj_Datastrukturer_Minne
                     + "\n1. Examine a List"
                     + "\n2. Examine a Queue"
                     + "\n3. Examine a Stack"
-                    + "\n4. CheckParenthesis"
+                    + "\n4. Reverse a text"
+                    + "\n5. CheckParenthesis"
                     + "\n0. Exit the application");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -269,7 +270,7 @@ namespace SkalProj_Datastrukturer_Minne
                     charStack.Push(c);
                 }
                 string reversed = "";
-                while (reversed.Length > 0) 
+                while (charStack.Count > 0) 
                 {
                     reversed += charStack.Pop();
                 }
