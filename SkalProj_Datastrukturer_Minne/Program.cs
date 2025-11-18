@@ -72,12 +72,56 @@ namespace SkalProj_Datastrukturer_Minne
              * Below you can see some inspirational code to begin working.
             */
 
-            //List<string> theList = new List<string>();
-            //string input = Console.ReadLine();
-            //char nav = input[0];
-            //string value = input.substring(1);
 
-            //switch(nav){...}
+            /* List<string> använder en underliggande array som växer dynamisk
+             * Capacity visar hur mycket plats som är allokerad, medan Count visar hur många  element faktiskt finns
+             * - När ökar listans kapacitet? När vi lägger fler element än vad listan har plats för. När vi lägger första element får vi capacity 4,  
+             * när vi lägger femte element blir capacity 8.
+             * - Med hur mycket ökar kapaciteten? Den fördubblas. T ex (4, 8, 16 osv)
+             * - Varför ökar inte listans kapacitet i samma takt som element läggs till? För att det är snabbare, det skulle bli långsammare om 
+             * listan ändrade storlek varje gång.
+             * - Minskar kapaciteten när element tas bort ur listan? Nej, capacity minskar inte, den stannar kvar även om listan blir tom
+             * -  När är det då fördelaktigt att använda en egendefinierad array istället för en lista?
+             * När man vet exakt hur många element vi behöver. Då sparar vi minne och det går lite snabbare. Det märks mest när vi jobbar med stora datamängder. 
+             */
+
+            List<string> theList = new List<string>();
+            
+            while(true)
+            {
+                Console.WriteLine("\nEnter +\"Something\" to add or -\"Something\" to remove. Type \"Q\" to return to main menu.");
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "q")
+                    break;
+
+                if (input.Length < 2)
+                {
+                    Console.WriteLine("Invalid input.");
+                    continue;
+                }
+
+                char nav = input[0];
+                string value = input.Substring(1);
+
+
+                switch (nav) {
+                    case '+':
+                        theList.Add(value);
+                        Console.WriteLine($"Added \"{value}\" to the list.");
+                        break;
+                    case '-':
+                        if (theList.Remove(value) == false)
+                            Console.WriteLine($"\"{value}\" not found in the list.");
+                        else
+                            Console.WriteLine($" Removed \"{value}\" from the list.");
+                        break;
+                    default:
+                        Console.WriteLine("Please use \"+\" to add or \"-\" to remove.");
+                        break;
+                }
+                Console.WriteLine($"Count: {theList.Count}, Capacity: {theList.Capacity}");
+            }
         }
 
         /// <summary>
@@ -90,6 +134,63 @@ namespace SkalProj_Datastrukturer_Minne
              * Create a switch with cases to enqueue items or dequeue items
              * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
             */
+
+            /*
+             * 
+             * 
+             * 
+             * 
+             * 
+             * 
+             * 
+             */
+
+            Queue<string> queue = new Queue<string>();
+
+            while (true)
+            {
+                Console.WriteLine("\nEnter +\"Name\" to add someone to the queue or \"-\" to remove the first person. Type \"Q\" to return to main menu.");
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "q")
+                    break;
+
+                char nav = input[0];
+                string value = input.Length > 1 ? input.Substring(1).Trim() : "";
+
+               
+                if (nav == '+' && string.IsNullOrWhiteSpace(value))
+                {
+                    Console.WriteLine("You must enter a name after '+'.");
+                    continue;
+                }
+
+
+                switch (nav)
+                {
+                    case '+':
+                        queue.Enqueue(value);
+                        Console.WriteLine($" \"{value}\" added  to the queue.");
+                        break;
+                    case '-':
+                        if (queue.Count > 0)
+                        {
+                            string removed = queue.Dequeue();
+                            Console.WriteLine($"\"{removed}\" removed  from the queue.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The queue is empty. No one to remove.");
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Please use \"+\" to add or \"-\" to remove.");
+                        break;
+                }
+                Console.WriteLine("Current queue: " + string.Join(", ", queue));
+                Console.WriteLine($"Count: {queue.Count}");
+            }
         }
 
         /// <summary>
