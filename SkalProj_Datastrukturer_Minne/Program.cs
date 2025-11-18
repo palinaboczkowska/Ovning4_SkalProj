@@ -135,16 +135,6 @@ namespace SkalProj_Datastrukturer_Minne
              * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
             */
 
-            /*
-             * 
-             * 
-             * 
-             * 
-             * 
-             * 
-             * 
-             */
-
             Queue<string> queue = new Queue<string>();
 
             while (true)
@@ -203,6 +193,58 @@ namespace SkalProj_Datastrukturer_Minne
              * Create a switch with cases to push or pop items
              * Make sure to look at the stack after pushing and and poping to see how it behaves
             */
+
+           Stack<string> stack = new Stack<string>();
+
+            while (true)
+            {
+                Console.WriteLine("\nEnter +\"Name\" to add someone to the stack or \"-\" to remove the last person. Type \"Q\" to return to main menu.");
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "q")
+                    break;
+
+                char nav = input[0];
+                string value = input.Length > 1 ? input.Substring(1).Trim() : "";
+
+
+                if (nav == '+' && string.IsNullOrWhiteSpace(value))
+                {
+                    Console.WriteLine("You must enter a name after '+'.");
+                    continue;
+                }
+
+
+                switch (nav)
+                {
+                    case '+':
+                        stack.Push(value);
+                        Console.WriteLine($" \"{value}\" added  to the stack.");
+                        break;
+                    case '-':
+                        if (stack.Count > 0)
+                        {
+                            string removed = stack.Pop();
+                            Console.WriteLine($"\"{removed}\" removed  from the stack.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The stack is empty. No one to remove.");
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Please use \"+\" to add or \"-\" to remove.");
+                        break;
+                }
+                Console.WriteLine("Current stack: " + string.Join(", ", stack));
+                Console.WriteLine($"Count: {stack.Count}");
+            }
+
+
+
+
+
         }
 
         static void CheckParanthesis()
