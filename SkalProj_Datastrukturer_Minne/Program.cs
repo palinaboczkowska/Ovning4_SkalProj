@@ -2,6 +2,28 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+/*
+ * Frågor:
+ * 1. Hur fungerar stacken och heapen? Förklara gärna med exempel eller skiss på dess 
+ * grundläggande funktion. 
+ * Stacken är en minnesområde där lagras lokala variabler och metodanrop, "snabb minne för små saker".  
+ * Det fungerar enligt FILO-principen (skolådor i en skobutik äe en super bra exempel). int x = 5 - variabel x lagras direkt i stacken.
+ * Heapen - större minne för objekt, här lagras saker som lever längre och nås via referens (t ex instanser av klasser).
+ * T ex new Person() - objekt skapas i heapen och en referens till det lagras på stacken.
+ * 
+ * 2. Vad är Value Types respektive Reference Types och vad skiljer dem åt? 
+ * Value Types lagrar själva värdet. Ändringar påverkar inte originalet, skapas en kopia. 
+ * Exempel: int, double, bool.
+ * Reference Types lagrar en referens till ett objekt i heapen. Ändringar påverkar originalet.
+ * Exempel: class, string, array.
+ *
+ * 3. Följande metoder (se bild nedan) genererar olika svar. Den första returnerar 3, den 
+ * andra returnerar 4, varför? 
+ * Eftersom den första använder Value Types (int). y = x kopierar värdet 3. Ändring av y påverkar inte x.
+ * I den andra metoden används Referens Types (class MyInt). y = x kopierar referensen till samma objektet. 
+ * Ändring av y.MyValue påverkar också x.MyValue.
+ */
+
 namespace SkalProj_Datastrukturer_Minne
 {
     class Program
@@ -109,7 +131,9 @@ namespace SkalProj_Datastrukturer_Minne
                     continue;
                 }
 
+                // First character is the command (+ or -)
                 char nav = input[0];
+                // The rest of the string is the value to add or remove
                 string value = input.Substring(1);
 
 
@@ -143,6 +167,9 @@ namespace SkalProj_Datastrukturer_Minne
              * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
             */
 
+            // A queue follows FIFO: First In, First Out.
+            // The first person added will be the first one removed
+
             Queue<string> queue = new Queue<string>();
 
             while (true)
@@ -156,7 +183,7 @@ namespace SkalProj_Datastrukturer_Minne
                 char nav = input[0];
                 string value = input.Length > 1 ? input.Substring(1).Trim() : "";
 
-               
+                // If "+" is used but no name is provided
                 if (nav == '+' && string.IsNullOrWhiteSpace(value))
                 {
                     Console.WriteLine("You must enter a name after '+'.");
@@ -202,7 +229,10 @@ namespace SkalProj_Datastrukturer_Minne
              * Make sure to look at the stack after pushing and and poping to see how it behaves
             */
 
-           Stack<string> stack = new Stack<string>();
+            // A stack follows LIFO: Last In, First Out
+            // The last person added will be the first one removed
+
+            Stack<string> stack = new Stack<string>();
 
             while (true)
             {
@@ -215,13 +245,11 @@ namespace SkalProj_Datastrukturer_Minne
                 char nav = input[0];
                 string value = input.Length > 1 ? input.Substring(1).Trim() : "";
 
-
                 if (nav == '+' && string.IsNullOrWhiteSpace(value))
                 {
                     Console.WriteLine("You must enter a name after '+'.");
                     continue;
                 }
-
 
                 switch (nav)
                 {
@@ -250,6 +278,8 @@ namespace SkalProj_Datastrukturer_Minne
             }
         }
 
+
+        // This method asks the user to enter a text, then reverses it using a stack
         static void ReverseText()
         {
             while (true)
@@ -265,19 +295,23 @@ namespace SkalProj_Datastrukturer_Minne
 
                 if (input.ToLower() == "q")
                     break;
+
+                // Create a stack to store characters
                 Stack<char> charStack = new Stack<char>();
 
+                // Push each character of the input onto the stack
                 foreach (char c in input)
                 {
                     charStack.Push(c);
                 }
+
+                // Pop characters from the stack to build the reversed string
                 string reversed = "";
                 while (charStack.Count > 0) 
                 {
                     reversed += charStack.Pop();
                 }
                 Console.WriteLine("Reversed text: " + reversed);
-
             }
         }
 
@@ -314,11 +348,11 @@ namespace SkalProj_Datastrukturer_Minne
 
                 foreach (char c in input)
                 {
-                    // Check if the character is any type of parenthesis
+                    // Check if the string contains any parentheses at all
                     if (c == '(' || c == '{' || c == '[' || c == ')' || c == '}' || c == ']')
                         containsParenthesis = true;
 
-                    // Push opening brackets onto the stack
+                    // Push opening brackets into the stack
                     if (c == '(' || c == '{' || c == '[')
                     {
                         stack.Push(c);
@@ -344,6 +378,8 @@ namespace SkalProj_Datastrukturer_Minne
                         }
                     }
                 }
+
+                // If no parentheses were found
                 if (!containsParenthesis)
                 {
                     Console.WriteLine("The string contains no parentheses. Please enter a string with parentheses.");
@@ -353,11 +389,10 @@ namespace SkalProj_Datastrukturer_Minne
                 // If the stack is not empty, there are unmatched opening brackets
                 if (stack.Count > 0)
                     isValid = false;
+
                 Console.WriteLine(isValid ? "The string is well-formed!" : "The string is not well-formed!");
             }
-
         }
-
     }
 }
 
