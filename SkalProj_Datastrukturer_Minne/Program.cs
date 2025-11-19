@@ -122,8 +122,11 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine("\nEnter +\"Something\" to add or -\"Something\" to remove. Type \"Q\" to return to main menu.");
                 string input = Console.ReadLine();
 
-                if (input.ToLower() == "q")
+                if (ShouldExit(input))
                     break;
+
+                if (!IsValidInput(input))
+                    continue;
 
                 if (input.Length < 2)
                 {
@@ -177,8 +180,11 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine("\nEnter +\"Name\" to add someone to the queue or \"-\" to remove the first person. Type \"Q\" to return to main menu.");
                 string input = Console.ReadLine();
 
-                if (input.ToLower() == "q")
+                if (ShouldExit(input))
                     break;
+
+                if (!IsValidInput(input))
+                    continue;
 
                 char nav = input[0];
                 string value = input.Length > 1 ? input.Substring(1).Trim() : "";
@@ -239,8 +245,11 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine("\nEnter +\"Name\" to add someone to the stack or \"-\" to remove the last person. Type \"Q\" to return to main menu.");
                 string input = Console.ReadLine();
 
-                if (input.ToLower() == "q")
+                if (ShouldExit(input))
                     break;
+
+                if (!IsValidInput(input))
+                    continue;
 
                 char nav = input[0];
                 string value = input.Length > 1 ? input.Substring(1).Trim() : "";
@@ -287,14 +296,11 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine("\nEnter a text to reverse (or type Q to return to the main menu):");
                 string input = Console.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    Console.WriteLine("You must enter some text.");
-                    continue;
-                }
-
-                if (input.ToLower() == "q")
+                if (ShouldExit(input))
                     break;
+
+                if (!IsValidInput(input))
+                    continue;
 
                 // Create a stack to store characters
                 Stack<char> charStack = new Stack<char>();
@@ -333,14 +339,11 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine("\nEnter a string with parentheses to check parentheses (or type Q to return to the main menu): ");
                 string input = Console.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    Console.WriteLine("You must enter a string.");
-                    continue;
-                }
-
-                if (input.ToLower() == "q")
+                if (ShouldExit(input))
                     break;
+
+                if (!IsValidInput(input))
+                    continue;
 
                 Stack <char> stack = new Stack<char>();
                 bool isValid = true;
@@ -393,6 +396,24 @@ namespace SkalProj_Datastrukturer_Minne
                 Console.WriteLine(isValid ? "The string is well-formed!" : "The string is not well-formed!");
             }
         }
+
+        //Helpmethod
+        static bool IsValidInput(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Console.WriteLine("You must enter some text.");
+                return false;
+            }
+            return true;
+        }
+
+        static bool ShouldExit(string input)
+        {
+            return input?.Trim().ToLower() == "q";
+        }
+
+
     }
 }
 
