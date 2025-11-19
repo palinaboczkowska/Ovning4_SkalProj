@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SkalProj_Datastrukturer_Minne
 {
@@ -286,6 +288,73 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
+
+            /* En stack passar perfekt för lösningen av den uppgiften eftersom just stacken 
+             * följer FILO - principen - den sist öppnade parantesen måste stängas först.
+             * Stacken håller koll på vilken typ av parantes som ska stängas.
+             */
+
+            while (true)
+            {
+                Console.WriteLine("\nEnter a string with parentheses to check parentheses (or type Q to return to the main menu): ");
+                string input = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("You must enter a string.");
+                    continue;
+                }
+
+                if (input.ToLower() == "q")
+                    break;
+
+                Stack <char> stack = new Stack<char>();
+                bool isValid = true;
+                bool containsParenthesis = false;
+
+                foreach (char c in input)
+                {
+                    // Check if the character is any type of parenthesis
+                    if (c == '(' || c == '{' || c == '[' || c == ')' || c == '}' || c == ']')
+                        containsParenthesis = true;
+
+                    // Push opening brackets onto the stack
+                    if (c == '(' || c == '{' || c == '[')
+                    {
+                        stack.Push(c);
+                    }
+                    // When we find a closing bracket, check if it matches the last opened one
+                    else if (c == ')' || c == '}' || c == ']') 
+                    {
+                        // If the stack is empty, there's no opening bracket to match
+                        if (stack.Count == 0) 
+                        {
+                            isValid = false;
+                            break;
+                        }
+
+                        char open = stack.Pop();
+                        // Check if the types match
+                        if ((c == ')' && open != '(') ||
+                            (c == '}' && open != '{') ||
+                            (c == ']' && open != '['))
+                        {
+                            isValid = false;
+                            break;
+                        }
+                    }
+                }
+                if (!containsParenthesis)
+                {
+                    Console.WriteLine("The string contains no parentheses. Please enter a string with parentheses.");
+                    continue;
+                }
+
+                // If the stack is not empty, there are unmatched opening brackets
+                if (stack.Count > 0)
+                    isValid = false;
+                Console.WriteLine(isValid ? "The string is well-formed!" : "The string is not well-formed!");
+            }
 
         }
 
