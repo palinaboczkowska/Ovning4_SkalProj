@@ -422,48 +422,27 @@ namespace SkalProj_Datastrukturer_Minne
         }
 
 
-        //Offers a menu for recursion exercises, validates user input
-        //and calls the appropriate recursive method
+        // Displays a menu for recursive methods and handles user input
         private static void ExamineRecursion()
         {
-            while (true) 
+            while (true)
             {
                 Console.WriteLine("\nChoose a recursive method:");
-                Console.WriteLine("1 - Calculate the nth even number");
-                Console.WriteLine("2 - Calculate the nth Fibonacci number");
+                Console.WriteLine("1 - Recursive Even");
+                Console.WriteLine("2 - Recursive Fibonacci");
                 Console.WriteLine("Q - Return to main menu");
 
-                string choice = Console.ReadLine();
-                if (ShouldExit(choice))
-                    break;
-
-                if(choice != "1" && choice != "2")
-                {
-                    Console.WriteLine("Invalid choice. Please enter 1, 2, or Q.");
-                    continue;
-                }
-
-                Console.Write("Enter a positive integer n: ");
-                string input = Console.ReadLine();
-
-                if (!int.TryParse(input, out int n) || n < 1)
-                {
-                    Console.WriteLine("Invalid number. Please enter a positive integer.");
-                    continue;
-                }
+                string choice = Console.ReadLine()?.Trim().ToLower();
+                if (ShouldExit(choice)) break;
 
                 switch (choice)
                 {
-                    case "1":
-                        int even = RecursiveEven(n);
-                        Console.WriteLine($"The {n}th even number is: {even}");
-                        break;
-                    case "2":
-                        int fib = RecursiveFibonacci(n);
-                        Console.WriteLine($"Fibonacci({n}) = {fib}");
-                        break;
+                    case "1": RunMethod("Recursive Even", RecursiveEven); break;
+                    case "2": RunMethod("Recursive Fibonacci", RecursiveFibonacci); break;
+                    default: Console.WriteLine("Invalid choice. Please enter 1, 2, or Q."); break;
                 }
             }
+
         }
 
         static int RecursiveEven(int n)
@@ -481,46 +460,24 @@ namespace SkalProj_Datastrukturer_Minne
         }
 
 
-        //Offers a menu for iteration exercises, validates user input
-        //and calls the appropriate iterative method
+        // Displays a menu for iterative methods and handles user input
         private static void ExamineIteration()
         {
             while (true)
             {
-                Console.WriteLine("\nChoose a iterative method:");
-                Console.WriteLine("1 - Calculate the nth even number");
-                Console.WriteLine("2 - Calculate the nth Fibonacci number");
+                Console.WriteLine("\nChoose an iterative method:");
+                Console.WriteLine("1 - Iterative Even");
+                Console.WriteLine("2 - Iterative Fibonacci");
                 Console.WriteLine("Q - Return to main menu");
 
-                string choice = Console.ReadLine();
-                if (ShouldExit(choice))
-                    break;
-
-                if (choice != "1" && choice != "2")
-                {
-                    Console.WriteLine("Invalid choice. Please enter 1, 2, or Q.");
-                    continue;
-                }
-
-                Console.Write("Enter a positive integer n: ");
-                string input = Console.ReadLine();
-
-                if (!int.TryParse(input, out int n) || n < 1)
-                {
-                    Console.WriteLine("Invalid number. Please enter a positive integer.");
-                    continue;
-                }
+                string choice = Console.ReadLine()?.Trim().ToLower();
+                if (ShouldExit(choice)) break;
 
                 switch (choice)
                 {
-                    case "1":
-                        int even = IterativeEven(n);
-                        Console.WriteLine($"The {n}th even number is: {even}");
-                        break;
-                    case "2":
-                        int fib = IterativeFibonacci(n);
-                        Console.WriteLine($"Fibonacci({n}) = {fib}");
-                        break;
+                    case "1": RunMethod("Iterative Even", IterativeEven); break;
+                    case "2": RunMethod("Iterative Fibonacci", IterativeFibonacci); break;
+                    default: Console.WriteLine("Invalid choice. Please enter 1, 2, or Q."); break;
                 }
             }
         }
@@ -546,6 +503,35 @@ namespace SkalProj_Datastrukturer_Minne
             }
             return b;
         }
+
+        /// Helpmethod: returns -1 if input is invalid
+        private static int GetPositiveInteger(string prompt)
+        {
+            Console.Write(prompt);
+            string input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int n) || n < 1)
+            {
+                Console.WriteLine("Invalid number. Please enter a positive integer.");
+                return -1;
+            }
+            return n;
+        }
+
+        //Helpmethod: runs the given method if input is valid
+        private static void RunMethod(string methodName, Func<int, int> method) //using delegate type
+        {
+            int n = GetPositiveInteger($"Enter a positive integer for {methodName}: ");
+            if (n == -1)
+                return;
+
+            int result = method(n);
+            Console.WriteLine($"{methodName}({n}) = {result}");
+        }
     }
 }
-
+        /* Rekursion är mer minneskrävande eftersom varje rekursiv anrop lägger en ny steg på stacken.
+         * RecursiveFibonacci(int n) har exponentiell tillväxt och det är farligt vid stora n.
+         * Iterativa metoder använder istället en enkel loop med en eller några variabler så inget extra  
+         * minne behövs för anrop. Så iterativa metoder är mer minnesvänliga än rekursiva.
+        */
