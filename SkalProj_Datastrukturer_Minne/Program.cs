@@ -42,7 +42,8 @@ namespace SkalProj_Datastrukturer_Minne
                     + "\n2. Examine a Queue"
                     + "\n3. Examine a Stack"
                     + "\n4. Reverse a text"
-                    + "\n5. CheckParenthesis"
+                    + "\n5. Check parenthesis"
+                    + "\n6. Examine recursion"
                     + "\n0. Exit the application");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -71,6 +72,9 @@ namespace SkalProj_Datastrukturer_Minne
                     case '5':
                         CheckParanthesis();
                         break;
+                    case '6':
+                        ExamineRecursion();
+                        break;
                     /*
                      * Extend the menu to include the recursive 
                      * and iterative exercises.
@@ -85,7 +89,6 @@ namespace SkalProj_Datastrukturer_Minne
             }
         }
 
-       
 
         /// <summary>
         /// Examines the datastructure List
@@ -408,12 +411,70 @@ namespace SkalProj_Datastrukturer_Minne
             return true;
         }
 
+        //Helpmethod
         static bool ShouldExit(string input)
         {
             return input?.Trim().ToLower() == "q";
         }
 
 
+        //Offers a menu for recursion exercises, validates user input
+        //and calls the appropriate recursive method
+        private static void ExamineRecursion()
+        {
+            while (true) 
+            {
+                Console.WriteLine("\nChoose a recursive method:");
+                Console.WriteLine("1 - Calculate the nth even number");
+                Console.WriteLine("2 - Calculate the nth Fibonacci number");
+                Console.WriteLine("Q - Return to main menu");
+
+                string choice = Console.ReadLine();
+                if (ShouldExit(choice))
+                    break;
+
+                if(choice != "1" && choice != "2")
+                {
+                    Console.WriteLine("Invalid choice. Please enter 1, 2, or Q.");
+                    continue;
+                }
+
+                Console.Write("Enter a positive integer n: ");
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out int n) || n < 1)
+                {
+                    Console.WriteLine("Invalid number. Please enter a positive integer.");
+                    continue;
+                }
+
+                switch (choice)
+                {
+                    case "1":
+                        int even = RecursiveEven(n);
+                        Console.WriteLine($"The {n}th even number is: {even}");
+                        break;
+                    case "2":
+                        int fib = Fibonacci(n);
+                        Console.WriteLine($"Fibonacci({n}) = {fib}");
+                        break;
+                }
+            }
+        }
+
+        static int RecursiveEven(int n)
+        {
+            if (n == 1)
+                return 2; //Base case
+            return RecursiveEven(n - 1) + 2; // Recursive step: add 2 to the previous even number
+        }
+
+        private static int Fibonacci(int n)
+        {
+            if (n == 0) return 0;
+            if (n == 1) return 1;
+            return Fibonacci(n-1) + Fibonacci(n-2);
+        }
     }
 }
 
