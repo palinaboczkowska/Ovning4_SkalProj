@@ -37,13 +37,14 @@ namespace SkalProj_Datastrukturer_Minne
 
             while (true)
             {
-                Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice"
+                Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 5, 6 ,7, 0) of your choice"
                     + "\n1. Examine a List"
                     + "\n2. Examine a Queue"
                     + "\n3. Examine a Stack"
                     + "\n4. Reverse a text"
                     + "\n5. Check parenthesis"
                     + "\n6. Examine recursion"
+                    + "\n7. Examine iteration"
                     + "\n0. Exit the application");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -74,6 +75,9 @@ namespace SkalProj_Datastrukturer_Minne
                         break;
                     case '6':
                         ExamineRecursion();
+                        break;
+                    case '7':
+                        ExamineIteration();
                         break;
                     /*
                      * Extend the menu to include the recursive 
@@ -455,7 +459,7 @@ namespace SkalProj_Datastrukturer_Minne
                         Console.WriteLine($"The {n}th even number is: {even}");
                         break;
                     case "2":
-                        int fib = Fibonacci(n);
+                        int fib = RecursiveFibonacci(n);
                         Console.WriteLine($"Fibonacci({n}) = {fib}");
                         break;
                 }
@@ -469,11 +473,78 @@ namespace SkalProj_Datastrukturer_Minne
             return RecursiveEven(n - 1) + 2; // Recursive step: add 2 to the previous even number
         }
 
-        private static int Fibonacci(int n)
+        private static int RecursiveFibonacci(int n)
         {
             if (n == 0) return 0;
             if (n == 1) return 1;
-            return Fibonacci(n-1) + Fibonacci(n-2);
+            return RecursiveFibonacci(n-1) + RecursiveFibonacci(n-2);
+        }
+
+
+        //Offers a menu for iteration exercises, validates user input
+        //and calls the appropriate iterative method
+        private static void ExamineIteration()
+        {
+            while (true)
+            {
+                Console.WriteLine("\nChoose a iterative method:");
+                Console.WriteLine("1 - Calculate the nth even number");
+                Console.WriteLine("2 - Calculate the nth Fibonacci number");
+                Console.WriteLine("Q - Return to main menu");
+
+                string choice = Console.ReadLine();
+                if (ShouldExit(choice))
+                    break;
+
+                if (choice != "1" && choice != "2")
+                {
+                    Console.WriteLine("Invalid choice. Please enter 1, 2, or Q.");
+                    continue;
+                }
+
+                Console.Write("Enter a positive integer n: ");
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out int n) || n < 1)
+                {
+                    Console.WriteLine("Invalid number. Please enter a positive integer.");
+                    continue;
+                }
+
+                switch (choice)
+                {
+                    case "1":
+                        int even = IterativeEven(n);
+                        Console.WriteLine($"The {n}th even number is: {even}");
+                        break;
+                    case "2":
+                        int fib = IterativeFibonacci(n);
+                        Console.WriteLine($"Fibonacci({n}) = {fib}");
+                        break;
+                }
+            }
+        }
+
+        static int IterativeEven(int n)
+        {
+            int result = 2;
+            for (int i = 0; i < n - 1; i++)
+                result += 2;
+            return result;
+        }
+
+        private static int IterativeFibonacci(int n)
+        {
+          if (n == 0) return 0;
+          if (n == 1) return 1;
+            int a = 0; int b = 1;
+            for (int i = 2; i <= n; i++)
+            {
+                int temp = a + b;
+                a = b;
+                b = temp;
+            }
+            return b;
         }
     }
 }
